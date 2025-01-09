@@ -25,9 +25,21 @@ posts = [
 def home(request):
     html = ""
     for post in posts:
+        html += f"<h3>{post['id']}</h3>"
         html += f"<h2>{post['title']}</h2>"
         html += f"<p>{post['author']}</p>"
         html += f"<p>{post['body']}</p>"
         html += "<hr>"
         
     return HttpResponse(html)
+
+def post_detail(request, id):
+    html = ""
+    for post in posts:
+        if post['id'] == id:
+            html += f"<h2>{post['title']}</h2>"
+            html += f"<p>{post['author']}</p>"
+            html += f"<p>{post['body']}</p>"
+            return HttpResponse(html)
+    
+    
