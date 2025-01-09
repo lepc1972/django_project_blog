@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 
 # Create your views here.
 posts = [ 
@@ -20,18 +20,26 @@ posts = [
             "title":"Third Post",
             "author":"John Doe",
             "body":"This is the third post"},
+           
+           { "id":4,
+            "title":"Fourth Post",
+            "author":"Jane Doe",
+            "body":"This is the fourth post"},
+            
+           
         ]
 
 def home(request):
     html = ""
     for post in posts:
-        html += f"<h3>{post['id']}</h3>"
-        html += f"<h2>{post['title']}</h2>"
-        html += f"<p>{post['author']}</p>"
-        html += f"<p>{post['body']}</p>"
-        html += "<hr>"
+        html += f'''
+            <div>
+            <a href="/post/{post['id']}">
+                <h1>{post['id']} - {post['title']}</h1></a>
+                <p>{post['body']}</p>
+            </div>'''
+    return HttpResponse(html)      
         
-    return HttpResponse(html)
 
 def post_detail(request, id):
     html = ""
@@ -41,5 +49,10 @@ def post_detail(request, id):
             html += f"<p>{post['author']}</p>"
             html += f"<p>{post['body']}</p>"
             return HttpResponse(html)
+        
+        else:
+            return HttpResponseNotFound("Post not found 😿")
+        
+       
     
     
